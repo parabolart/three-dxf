@@ -34,5 +34,8 @@
     "cad",
     "viewer"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3"
+  }
 }
