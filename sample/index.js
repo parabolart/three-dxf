@@ -6,6 +6,29 @@ var $cadview = $('#cad-view');
 var dxfContentEl = $('#dxf-content')[0];
 var cadCanvas;
 
+var getFileBlob = function (url, cb) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.responseType = "blob";
+        xhr.addEventListener('load', function() {
+            cb(xhr.response);
+        });
+        xhr.send();
+};
+
+var blobToFile = function (blob, name) {
+        blob.lastModifiedDate = new Date();
+        blob.name = name;
+        return blob;
+};
+
+var getFileObject = function(filePathOrUrl, cb) {
+       getFileBlob(filePathOrUrl, function (blob) {
+          cb(blobToFile(blob, 'file.dxf'));
+       });
+};
+
+
 // Setup the dnd listeners.
 var dropZone = $('.drop-zone');
 dropZone.on('dragover', handleDragOver, false);
@@ -18,7 +41,8 @@ function onFileSelected(evt) {
     progress.textContent = '0%';
 
     //var file = new File([""], "/file.dxf"); //evt.target.files[0];
-    var file = new File([""], 'file.dxf');
+    var file = getFileBlob('file.dxf');
+    alert('test' + file);
     alert("size=" + file.size);
 
     var output = [];
