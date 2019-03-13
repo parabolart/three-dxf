@@ -22,8 +22,7 @@
     "Ben Zuill-Smith <bzuillsmith@gmail.com>"
   ],
   "license": "MIT",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "peerDependencies": {
     "three": "0.x.x"
   },
