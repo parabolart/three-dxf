@@ -1,1 +1,1 @@
-web: node dist/three-dxf.js
+web: node three-dxf.js
