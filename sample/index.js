@@ -11,14 +11,16 @@ var dropZone = $('.drop-zone');
 dropZone.on('dragover', handleDragOver, false);
 dropZone.on('drop', onFileSelected, false);
 
-document.getElementById('dxf').addEventListener('change', onFileSelected, false);
-
+document.getElementById('dxf2').addEventListener('mousedown', onFileSelected, false);
 
 function onFileSelected(evt) {
     progress.style.width = '0%';
     progress.textContent = '0%';
 
-    var file = evt.target.files[0];
+    //var file = new File([""], "/file.dxf"); //evt.target.files[0];
+    var file = new File([""], 'file.dxf');
+    alert("size=" + file.size);
+
     var output = [];
     output.push('<li><strong>', encodeURI(file.name), '</strong> (', file.type || 'n/a', ') - ',
         file.size, ' bytes, last modified: ',
@@ -75,7 +77,7 @@ function onSuccess(evt){
     setTimeout(function() { $progress.removeClass('loading'); }, 2000);
     var parser = new window.DxfParser();
     var dxf = parser.parseSync(fileReader.result);
-    
+
     if(dxf) {
         dxfContentEl.innerHTML = JSON.stringify(dxf, null, 2);
     } else {
@@ -84,14 +86,14 @@ function onSuccess(evt){
 
     // Three.js changed the way fonts are loaded, and now we need to use FontLoader to load a font
     //  and enable TextGeometry. See this example http://threejs.org/examples/?q=text#webgl_geometry_text
-    //  and this discussion https://github.com/mrdoob/three.js/issues/7398 
+    //  and this discussion https://github.com/mrdoob/three.js/issues/7398
     var font;
     var loader = new THREE.FontLoader();
     loader.load( 'fonts/helvetiker_regular.typeface.json', function ( response ) {
         font = response;
         cadCanvas = new window.ThreeDxf.Viewer(dxf, document.getElementById('cad-view'), 400, 400, font);
     });
-    
+
 }
 
 function handleDragOver(evt) {

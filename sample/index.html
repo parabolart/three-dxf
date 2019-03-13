@@ -4,10 +4,10 @@
 
     <script src="/sample/node_modules/dxf-parser/dist/dxf-parser.js"></script>
     <script src="/sample/node_modules/jquery/dist/jquery.min.js"></script>
-    
+
     <!-- Three.js -->
     <script src="/sample/node_modules/three/build/three.min.js"></script>
-    
+
     <script src="/dist/three-dxf.js"></script>
 </head>
 <body>
@@ -42,6 +42,7 @@
         <div class="form-group">
             <label for="exampleInputFile">Choose a DXF file</label>
             <input type="file" accept=".dxf" id="dxf" name="file">
+            <input type="button" id="dxf2" name="file" value="data/file.dxf">
             <div class="progress progress-striped" style="width: 300px;">
                 <div id="file-progress-bar" class="progress-bar progress-bar-success" role="progressbar" style="width: 0">
                 </div>
