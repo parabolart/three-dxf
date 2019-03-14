@@ -1,6 +1,6 @@
 
-var progress = document.getElementById('file-progress-bar');
-var $progress = $('.progress');
+//var progress = document.getElementById('file-progress-bar');
+//var $progress = $('.progress');
 
 var $cadview = $('#cad-view');
 var dxfContentEl = $('#dxf-content')[0];
@@ -32,31 +32,35 @@ var dropZone = $('.drop-zone');
 dropZone.on('dragover', handleDragOver, false);
 dropZone.on('drop', onFileSelected, false);
 
-document.getElementById('dxf2').addEventListener('mousedown', onFileSelected, false);
+//document.getElementById('dxf2').addEventListener('mousedown', onFileSelected, false);
+
+onFileSelected();
 
 function onFileSelected(evt) {
     getFileObject('teg.dxf', function (fileObject) {
          var file3 = fileObject;
          alert(file3.size);
 
-         progress.style.width = '0%';
-         progress.textContent = '0%';
+         //progress.style.width = '0%';
+         //progress.textContent = '0%';
 
          var file = file3;
          alert('test=' + file3);
          alert("size=" + file3.size);
 
+         /*
          var output = [];
          output.push('<li><strong>', encodeURI(file.name), '</strong> (', file.type || 'n/a', ') - ',
              file.size, ' bytes, last modified: ',
              file.lastModifiedDate ? file.lastModifiedDate.toLocaleDateString() : 'n/a',
              '</li>');
          document.getElementById('file-description').innerHTML = '<ul>' + output.join('') + '</ul>';
+         */
 
-         $progress.addClass('loading');
+         //$progress.addClass('loading');
 
          var reader = new FileReader();
-         reader.onprogress = updateProgress;
+         //reader.onprogress = updateProgress;
          reader.onloadend = onSuccess;
          reader.onabort = abortUpload;
          reader.onerror = errorHandler;
@@ -95,20 +99,21 @@ function updateProgress(evt) {
     }
 }
 
+
 function onSuccess(evt){
     var fileReader = evt.target;
     if(fileReader.error) return console.log("error onloadend!?");
-    progress.style.width = '100%';
-    progress.textContent = '100%';
-    setTimeout(function() { $progress.removeClass('loading'); }, 2000);
+    //progress.style.width = '100%';
+    //progress.textContent = '100%';
+    //setTimeout(function() { $progress.removeClass('loading'); }, 2000);
     var parser = new window.DxfParser();
     var dxf = parser.parseSync(fileReader.result);
 
-    if(dxf) {
-        dxfContentEl.innerHTML = JSON.stringify(dxf, null, 2);
-    } else {
-        dxfContentEl.innerHTML = 'No data.';
-    }
+    //if(dxf) {
+    //    dxfContentEl.innerHTML = JSON.stringify(dxf, null, 2);
+    //} else {
+    //    dxfContentEl.innerHTML = 'No data.';
+    //}
 
     // Three.js changed the way fonts are loaded, and now we need to use FontLoader to load a font
     //  and enable TextGeometry. See this example http://threejs.org/examples/?q=text#webgl_geometry_text
@@ -117,7 +122,7 @@ function onSuccess(evt){
     var loader = new THREE.FontLoader();
     loader.load( 'fonts/helvetiker_regular.typeface.json', function ( response ) {
         font = response;
-        cadCanvas = new window.ThreeDxf.Viewer(dxf, document.getElementById('cad-view'), 400, 400, font);
+        cadCanvas = new window.ThreeDxf.Viewer(dxf, document.getElementById('cad-view'), 300, 300, font);
     });
 
 }
