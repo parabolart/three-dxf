@@ -24,11 +24,9 @@ var blobToFile = function (blob, name) {
 
 var getFileObject = function(filePathOrUrl, cb) {
        getFileBlob(filePathOrUrl, function (blob) {
-          cb(blobToFile(blob, 'file.dxf'));
+          cb(blobToFile(blob, 'teg.dxf'));
        });
 };
-
-
 // Setup the dnd listeners.
 var dropZone = $('.drop-zone');
 dropZone.on('dragover', handleDragOver, false);
@@ -37,29 +35,33 @@ dropZone.on('drop', onFileSelected, false);
 document.getElementById('dxf2').addEventListener('mousedown', onFileSelected, false);
 
 function onFileSelected(evt) {
-    progress.style.width = '0%';
-    progress.textContent = '0%';
+    getFileObject('teg.dxf', function (fileObject) {
+         var file3 = fileObject;
+         alert(file3.size);
 
-    //var file = new File([""], "/file.dxf"); //evt.target.files[0];
-    var file = getFileBlob('file.dxf');
-    alert('test' + file);
-    alert("size=" + file.size);
+         progress.style.width = '0%';
+         progress.textContent = '0%';
 
-    var output = [];
-    output.push('<li><strong>', encodeURI(file.name), '</strong> (', file.type || 'n/a', ') - ',
-        file.size, ' bytes, last modified: ',
-        file.lastModifiedDate ? file.lastModifiedDate.toLocaleDateString() : 'n/a',
-        '</li>');
-    document.getElementById('file-description').innerHTML = '<ul>' + output.join('') + '</ul>';
+         var file = file3;
+         alert('test=' + file3);
+         alert("size=" + file3.size);
 
-    $progress.addClass('loading');
+         var output = [];
+         output.push('<li><strong>', encodeURI(file.name), '</strong> (', file.type || 'n/a', ') - ',
+             file.size, ' bytes, last modified: ',
+             file.lastModifiedDate ? file.lastModifiedDate.toLocaleDateString() : 'n/a',
+             '</li>');
+         document.getElementById('file-description').innerHTML = '<ul>' + output.join('') + '</ul>';
 
-    var reader = new FileReader();
-    reader.onprogress = updateProgress;
-    reader.onloadend = onSuccess;
-    reader.onabort = abortUpload;
-    reader.onerror = errorHandler;
-    reader.readAsText(file);
+         $progress.addClass('loading');
+
+         var reader = new FileReader();
+         reader.onprogress = updateProgress;
+         reader.onloadend = onSuccess;
+         reader.onabort = abortUpload;
+         reader.onerror = errorHandler;
+         reader.readAsText(file);
+    });
 }
 
 function abortUpload() {
